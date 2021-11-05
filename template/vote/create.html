@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block auth %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="container mt-5 mb-5">
+        <h1>TOPIC 생성</h1>
+        <div class="input-group input-group-lg mt-5">
+            <span class="input-group-text" style="background-color: rgba(0, 132, 255, 0.199);" id="inputGroup-sizing-lg">Topic</span>
+            <input type="text" name="topic" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+        </div>
+        <div class="input-group input-group-lg mt-4">
+            <span class="input-group-text" style="background-color: rgba(0, 132, 255, 0.199);" id="inputGroup-sizing-lg">Content</span>
+            <textarea name="content" class="form-control" style="height: 200px;" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"></textarea>
+        </div>
+        
+
+        <div class="mt-3 text-end">
+            <button type="button" onclick="cre_select()" class="btn btn-primary" style="font-weight: bold;">보기생성</button>
+            <button class="btn btn-success" style="font-weight: bold;">글쓰기</button>
+        </div>
+        <div id="here" class="row"></div>
+    </div>
+</form>
+
+
+<script>
+    var num = 1;
+    function cre_select(){
+        var h = document.getElementById("here");
+        var div = document.createElement("div");
+        div.setAttribute("class","col-lg-6");
+        div.setAttribute("id","bogi"+num);
+        div.innerHTML = `
+            <div class="input-group input-group-lg mt-3">
+                <span class="input-group-text" style="background-color: rgba(0, 132, 255, 0.199);" id="inputGroup-sizing-lg">보기`+num+`</span>
+                <input type="text" name="select" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+            </div>
+            <div class="input-group input-group-lg mt-3">
+                <input type="file" name="pic" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+            </div>
+            <div class="input-group input-group-lg mt-3">
+                <span class="input-group-text" style="background-color: rgba(0, 132, 255, 0.199);" id="inputGroup-sizing-lg">Comment</span>
+                <textarea name="comment" class="form-control" style="height: 100px;" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"></textarea>
+            </div>
+            <button class="btn btn-danger" onclick="rmbogi(`+ num + `)">보기삭제</button>
+        `;
+        h.appendChild(div);
+        num += 1;
+    }
+    function rmbogi(n){
+        var d = document.getElementById("bogi"+n);
+        d.remove();
+    }
+</script>
+
+
+{% endblock %}

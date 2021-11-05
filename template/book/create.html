@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block auth %}
+
+<!-- 게시글 마다 비밀 번호-->
+
+<form method="post" >
+    {% csrf_token %}
+    <div class="container mt-5 mb-5">
+        <h1>북마크 생성</h1>
+        <div class="input-group input-group-lg mt-5">
+            <span class="input-group-text" style="background-color: rgba(0, 132, 255, 0.199);" id="inputGroup-sizing-lg">Site Name</span>
+            <input type="text" name="sname" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+        </div>
+        <div class="input-group input-group-lg mt-4">
+            <span class="input-group-text" style="background-color: rgba(0, 132, 255, 0.199);" id="inputGroup-sizing-lg">Site URL</span>
+            <textarea type = "url" name="surl" class="form-control" style="height: 50px;" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">https://</textarea>
+        </div>
+        <div class="mt-3 text-end">
+            <input type="checkbox" name = "ck" class="btn-check" id="btncheck1" autocomplete="off">
+            <label class="btn btn-outline-warning" for="btncheck1">별</label>
+            <button class="btn btn-success" style="font-weight: bold;">북마크 생성</button>
+        </div>
+    </div>
+</form>
+
+{% endblock %}

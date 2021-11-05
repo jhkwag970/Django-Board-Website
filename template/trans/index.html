@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block auth %}
+
+<div class="container mt-5">
+    <h1><b>번역기</b></h1>
+    <hr>
+<form method = "POST">
+    {% csrf_token %}
+    <div class="row text-center" style="margin: auto;">
+        <div class="col-lg-5">
+            <textarea value =   name = "btext" class="form-control" style="height: 350px;">{{ btext }}</textarea>
+        </div>
+        <div class="col-lg-2">
+            <h4>FROM</h4>
+            <select name = "f" class="form-select" size="3" aria-label="size 3 select example">
+                <option value="ko" {% if f == "ko" or not f %} selected {% endif %}>KOREAN</option>
+                <option value="ja" {% if f == "ja" %} selected {% endif %}>JAPENSE</option>
+                <option value="en" {% if f == "en" %} selected {% endif %}> ENGLISH</option>
+            </select>
+            <button class="btn btn-success">TRANS</button>
+            <h4>TO</h4>
+            <select name = "t" class="form-select" size="3" aria-label="size 3 select example">
+                <option value="ko" {% if t == "ko" %} selected {% endif %}>KOREAN</option>
+                <option value="ja" {% if t == "ja" %} selected {% endif %}>JAPENSE</option>
+                <option value="en" {% if t == "en" or not t %} selected {% endif %}>ENGLISH</option>
+            </select>
+        </div>
+        <div class="col-lg-5">
+            <textarea disabled class="form-control" style="height: 350px;">
+            {{ text }}</textarea>
+        </div>
+    </div>
+</form>
+
+</div>
+
+
+
+
+{% endblock %}

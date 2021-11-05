@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block auth %}
+{% load mathfilters %}
+<!-- 이 부분 투표한사람 수 전체 투표 수 -->
+
+<div class = "container mt-3 mb-3">
+  <h1><b>{{ topic.subject }} 투표함</b></h1>
+  <div class ="row">
+    <div class = "col-lg-10">
+      <textarea disabled class="form-control" style = "height:180px;">
+      {{ topic.content }}</textarea>
+    </div>
+    <div class = "col-lg-2 text-center">
+      <img src = "{{ pic }}" class = "text-end rounded-circle" style = "height:150px;">
+      <h5>{{ topic.writer }}</h5>
+    </div>
+  </div>
+    
+  <hr>
+ 
+
+  <form method="POST" action="{% url 'vote:vote' topic.id %}">
+    {% csrf_token %}
+    <div class = "row">
+
+      {% for i in choices %}
+      <div class = "col-lg-4 mt-2 mb-3">
+
+        <div class="card" style="width: 18rem;">
+
+          <img src="{{ i.getpic }}" class="card-img-top" alt="..." style = "height:200px;">
+          <div class="card-body">
+
+            <h5 class="card-title">
+            {% if user in topic.voter.all %}
+
+            {% else %}
+              <input type="radio" class="form-check-input" name="choice" value="{{i.id}}" {% if forloop.first%} checked {% endif %}>
+            {% endif %}
+            {{ i.select }}</h5>
+            <p class="card-text">
+              {{ i.comment }}
+            </p>
+
+            {% if user in topic.voter.all %}
+              <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" 
+                style="width: {{ i.voter.all.count|div:topic.voter.all.count|mul:100 }}% ">
+                {{ i.voter.all.count|div:topic.voter.all.count|mul:100 }}% </div>
+              </div>
+            {% endif %}
+            
+          </div>
+
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% if user in topic.voter.all %}
+      <div class="d-grid gap-2 col-6 mx-auto">
+        <a href = "{% url 'vote:cancel' topic.id %}"><button type = "button" class="btn btn-danger">투표 취소</button></a>
+      </div>
+    {% else %}
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <button class="btn btn-success">제출</button>
+    </div>
+    {% endif %}
+
+  </form>
+  
+
+</div>
+
+{% endblock %}

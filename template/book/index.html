@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block auth %}
+
+<!--게시글 즐겨찾기 -->
+
+<div class = "container mt-5 mb-5">
+
+    <h1>즐겨찾기</h1>
+    <div class = "text-end">
+        <a href = "{%url 'book:create' %}"><button class = "btn btn-success">ADD</button></a>
+    </div>
+    <div class = "row">
+        
+        {% for i in blist %}
+            <div class = "col-lg-4 mt-5">
+                <div class="card text-center">
+
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">
+                            {% if i.impo %}
+                            <mark style = "background-color: rgba(253, 253, 221, 0.993);"><b>{{ i.site_name |upper }}</b></mark>
+                            {% else %}
+                            <b>{{ i.site_name |upper }}</b>
+                            {% endif %}
+                        </h5>
+                        <a href="{{ i.site_url }}" class="btn btn-outline-primary">LINK</a>
+                        <button type="button" class="btn btn-outline-danger" style="font-weight: bold;" data-bs-toggle="modal" data-bs-target="#exampleModal{{ i.id}}">
+                            Delete
+                        </button>
+                    </div>
+
+                    <div class="card-footer text-muted">
+                        {{ i.ctime | date:'Y.M.d' }}
+                    </div>
+
+                </div>
+            </div>
+            
+            <!-- Modal -->
+            <!-- 한페이지에 여러 모달이 사용 될경우 각각 소환되는 모달은 다른 id 값을 부여해주어야 한다.-->
+            <!-- 그러지 않을 경우 두번쨰 세번쨰 모달이 열여도 첫번째 모달의 함수만 실행이 된다. -->
+            <div class="modal fade" id="exampleModal{{ i.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-center" id="exampleModalLabel">계정 삭제 알림</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            링크 삭제 하시겠습니까?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">취소</button>
+                            <a href = "{% url 'book:linkdel' i.id %}"><button type="button" class="btn btn-danger">삭제</button></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</div>
+
+<!--paginator-->
+<nav aria-label="Page navigation example" class = "mt-5 mb-5 ">
+    <ul class="pagination justify-content-center">
+        {% if blist.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'book:index' %}"> << </a>
+            </li>
+            <li>
+                <a class="page-link" href="{% url 'book:index' %}?page={{ blist.previous_page_number }}"> < </a>
+            </li>
+        {% endif %}
+
+        {% for i in blist.paginator.page_range %}
+            <li class="page-item"><a class="page-link" href="{% url 'book:index' %}?page= {{ i }}" {% if i == blist.number %} disabled {% endif %}>{{ i }}</a></li>
+        {% endfor %}
+
+        {% if blist.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="{% url 'book:index' %}?page={{ blist.next_page_number }}"> > </a>
+            </li>
+                <li>
+                <a class="page-link" href="{% url 'book:index' %}?page={{ blist.paginator.num_pages }}"> >> </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+
+{% endblock %}

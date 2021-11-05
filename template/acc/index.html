@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block noauth %}
+
+<form method = "POST" action = "{% url 'acc:userlogin' %}">
+    {% csrf_token %}
+
+    <div class = "container mt-5 mb-5">
+
+    <div class = "mb-5">
+        <h1>LOGIN</h1>
+        <hr>
+    </div>
+
+    <div class="input-group mt -5 mb-4">
+        <span class="input-group-text" id="inputGroup-sizing-default">USERNAME</span>
+        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name = "username">
+      </div>
+
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="inputGroup-sizing-default">PASSWORD</span>
+        <input type="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name = "password">
+      </div>
+
+      <div class = "mt-3 text-end">
+        <button class="btn btn-light">LOGIN</button>
+      </div>
+
+</div>
+
+</form>
+
+{% endblock %}
